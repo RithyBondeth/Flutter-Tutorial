@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_tutorial/riverpod-module/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,7 +10,12 @@ class UsersApi {
 
   Future<List<UserModel>> fetchUsers() async {
     final uri = Uri.parse("https://jsonplaceholder.typicode.com/users");
-    final response = await _client.get(uri);
+    final response = await _client.get(
+      uri,
+      headers: {'Accept': 'application/json', 'User-Agent': 'Mozilla/5.0'},
+    );
+
+    debugPrint("Response: ${response.body}");
 
     if (response.statusCode != 200) {
       throw Exception('Failed to fetch users: ${response.statusCode}');
